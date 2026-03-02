@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Malaria Detection System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Google Font -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+
+  <body>
+    <div class="mosquito-bg"></div>
+
+    <!-- ================= LOGIN PAGE ================= -->
+    <div id="loginPage" class="page active">
+      <div class="card">
+        <h2>🦟 Malaria Detection</h2>
+        <p class="subtitle">AI Powered Blood Smear Analysis</p>
+
+        <input type="text" id="loginUser" placeholder="Username" />
+        <input type="password" id="loginPass" placeholder="Password" />
+
+        <button id="loginBtn" class="primary-btn">Login</button>
+
+        <p class="switch-text">
+          Don't have an account?
+          <span class="link" id="goSignup">Create Account</span>
+        </p>
+      </div>
+    </div>
+
+    <!-- ================= SIGNUP PAGE ================= -->
+    <div id="signupPage" class="page">
+      <div class="card">
+        <h2>Create Account</h2>
+        <p class="subtitle">Join the Malaria AI System</p>
+
+        <input type="text" id="signupUser" placeholder="Username" />
+        <input type="password" id="signupPass" placeholder="Password" />
+
+        <button id="signupBtn" class="primary-btn">Create Account</button>
+
+        <p class="switch-text">
+          Already have an account?
+          <span class="link" id="goLogin">Login</span>
+        </p>
+      </div>
+    </div>
+
+    <!-- ================= HOME PAGE ================= -->
+    <div id="homePage" class="page">
+      <nav>
+        <h3>🦟 Malaria AI</h3>
+        <div>
+          <button onclick="showHome()">Home</button>
+          <button onclick="showUpload()">Upload Image</button>
+          <button onclick="logout()">Logout</button>
+        </div>
+      </nav>
+
+      <div class="content">
+        <h2>About Malaria</h2>
+
+        <p>
+          Malaria is a serious disease caused by Plasmodium parasites and
+          transmitted through the bite of infected female Anopheles mosquitoes.
+          Early detection is very important for proper treatment.
+        </p>
+
+        <h3>How It Spreads</h3>
+        <ul>
+          <li>Through mosquito bites</li>
+          <li>Infected blood transfusion (rare)</li>
+          <li>From mother to unborn baby</li>
+        </ul>
+
+        <h3>Prevention</h3>
+        <ul>
+          <li>Use mosquito nets while sleeping</li>
+          <li>Apply mosquito repellents</li>
+          <li>Keep water containers covered</li>
+          <li>Maintain clean surroundings</li>
+        </ul>
+
+        <div class="info-box">
+          ⚠ Early diagnosis using AI-based detection can save lives.
+        </div>
+      </div>
+
+      <footer>© 2026 Malaria Detection AI | Developed by Pranjal</footer>
+    </div>
+
+    <!-- ================= UPLOAD PAGE ================= -->
+    <div id="uploadPage" class="page">
+      <nav>
+        <h3>🦟 Malaria AI</h3>
+        <div>
+          <button onclick="showHome()">Home</button>
+          <button onclick="logout()">Logout</button>
+        </div>
+      </nav>
+
+      <div class="content upload-section">
+        <h2>Upload Blood Smear Image</h2>
+        <p>Select a microscopic blood image for AI prediction</p>
+
+        <input type="file" id="imageInput" accept="image/*" />
+        <img id="preview" style="display: none" />
+
+        <button class="primary-btn" onclick="predict()">Predict</button>
+
+        <h3 id="result"></h3>
+      </div>
+
+      <footer>© 2026 Malaria Detection AI</footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+  </body>
+</html>
