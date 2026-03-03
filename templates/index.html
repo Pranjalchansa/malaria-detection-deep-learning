@@ -2,15 +2,13 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Malaria Detection System</title>
+    <title>Malaria Detection AI System</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- Google Font -->
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
       rel="stylesheet"
     />
-
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='style.css') }}"
@@ -23,12 +21,17 @@
     <!-- ================= LOGIN PAGE ================= -->
     <div id="loginPage" class="page active">
       <div class="card">
-        <h2>🦟 Malaria Detection</h2>
-        <p class="subtitle">AI Powered Blood Smear Analysis</p>
+        <h2>🦟 Malaria Detection AI</h2>
+        <p class="subtitle">Early Detection Saves Lives</p>
+
+        <div class="login-extra">
+          <p>✔ AI Powered Diagnosis</p>
+          <p>✔ 95%+ Accuracy</p>
+          <p>✔ Instant Analysis</p>
+        </div>
 
         <input type="text" id="loginUser" placeholder="Username" />
         <input type="password" id="loginPass" placeholder="Password" />
-
         <button id="loginBtn" class="primary-btn">Login</button>
 
         <p class="switch-text">
@@ -42,11 +45,10 @@
     <div id="signupPage" class="page">
       <div class="card">
         <h2>Create Account</h2>
-        <p class="subtitle">Join the Malaria AI System</p>
+        <p class="subtitle">Join Malaria AI System</p>
 
         <input type="text" id="signupUser" placeholder="Username" />
         <input type="password" id="signupPass" placeholder="Password" />
-
         <button id="signupBtn" class="primary-btn">Create Account</button>
 
         <p class="switch-text">
@@ -62,45 +64,57 @@
         <h3>🦟 Malaria AI</h3>
         <div>
           <button onclick="showHome()">Home</button>
-          <button onclick="showUpload()">Upload Image</button>
+          <button onclick="showUpload()">Upload</button>
+          <button onclick="showPerformance()">Model Performance</button>
+          <button onclick="showTechnology()">AI Technology</button>
           <button onclick="logout()">Logout</button>
         </div>
       </nav>
 
       <div class="content">
         <h2>About Malaria</h2>
-
         <p>
-          Malaria is a serious disease caused by Plasmodium parasites and
-          transmitted through the bite of infected female Anopheles mosquitoes.
-          Early detection is very important for proper treatment.
+          Malaria is a life-threatening infectious disease caused by Plasmodium
+          parasites transmitted through infected female Anopheles mosquitoes.
         </p>
 
-        <h3>How It Spreads</h3>
+        <h3>🦟 How It Spreads</h3>
+        <p>
+          The parasite enters the bloodstream through mosquito bites, travels to
+          the liver, multiplies, and infects red blood cells.
+        </p>
+
+        <h3>⚠ Symptoms</h3>
         <ul>
-          <li>Through mosquito bites</li>
-          <li>Infected blood transfusion (rare)</li>
-          <li>From mother to unborn baby</li>
+          <li>High fever</li>
+          <li>Chills</li>
+          <li>Headache</li>
+          <li>Vomiting</li>
+          <li>Fatigue</li>
         </ul>
 
-        <h3>Prevention</h3>
+        <h3>🚨 Severe Effects</h3>
+        <p>
+          Untreated malaria can cause organ failure, anemia, brain damage, and
+          even death.
+        </p>
+
+        <h3>🛡 Prevention</h3>
         <ul>
-          <li>Use mosquito nets while sleeping</li>
-          <li>Apply mosquito repellents</li>
-          <li>Keep water containers covered</li>
-          <li>Maintain clean surroundings</li>
+          <li>Mosquito nets</li>
+          <li>Repellents</li>
+          <li>Clean surroundings</li>
         </ul>
 
         <div class="info-box">
-          ⚠ Early diagnosis using AI-based detection can save lives.
+          Our Deep Learning model analyzes microscopic blood smear images for
+          early malaria detection.
         </div>
       </div>
-
-      <footer>© 2026 Malaria Detection AI | Developed by Pranjal</footer>
     </div>
 
     <!-- ================= UPLOAD PAGE ================= -->
-    <div id="uploadPage" class="page">
+    <div id="uploadPage" class="page {% if result %}active{% endif %}">
       <nav>
         <h3>🦟 Malaria AI</h3>
         <div>
@@ -111,18 +125,124 @@
 
       <div class="content upload-section">
         <h2>Upload Blood Smear Image</h2>
-        <p>Select a microscopic blood image for AI prediction</p>
+        <p>AI Microscopic Analysis</p>
 
-        <input type="file" id="imageInput" accept="image/*" />
-        <img id="preview" style="display: none" />
+        <form action="/predict" method="POST" enctype="multipart/form-data">
+          <input type="file" name="file" accept="image/*" required />
+          <br /><br />
+          <button type="submit" class="primary-btn">Predict</button>
+        </form>
 
-        <button class="primary-btn" onclick="predict()">Predict</button>
-
-        <h3 id="result"></h3>
+        {% if image_path %}
+        <div class="image-preview">
+          <h3>Uploaded Image</h3>
+          <img src="{{ image_path }}" alt="Uploaded Image" />
+        </div>
+        {% endif %} {% if result %}
+        <div class="result-box">
+          <h2 style="color: {{ status_color }}">Prediction: {{ result }}</h2>
+          <h3>Confidence: {{ confidence }}%</h3>
+          <p><strong>Recommendation:</strong> {{ recommendation }}</p>
+        </div>
+        {% endif %}
       </div>
-
-      <footer>© 2026 Malaria Detection AI</footer>
     </div>
+
+    <!-- ================= MODEL PERFORMANCE PAGE ================= -->
+    <div id="performancePage" class="page">
+      <nav>
+        <h3>Model Performance</h3>
+        <div>
+          <button onclick="showHome()">Home</button>
+          <button onclick="logout()">Logout</button>
+        </div>
+      </nav>
+
+      <div class="content">
+        <h2>Model Details</h2>
+        <p><strong>Architecture:</strong> MobileNetV2 (Transfer Learning)</p>
+        <p><strong>Training Accuracy:</strong> 95%+</p>
+        <p><strong>Dataset Size:</strong> 400+ Microscopic Images</p>
+        <p><strong>Optimizer:</strong> Adam</p>
+        <p><strong>Loss Function:</strong> Binary Crossentropy</p>
+
+        <div class="info-box">
+          The model was trained using deep convolutional neural networks and
+          validated on unseen data for reliable performance.
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= AI TECHNOLOGY PAGE ================= -->
+    <div id="technologyPage" class="page">
+      <nav>
+        <h3>AI Technology</h3>
+        <div>
+          <button onclick="showHome()">Home</button>
+          <button onclick="logout()">Logout</button>
+        </div>
+      </nav>
+
+      <div class="content">
+        <h2>How The AI Works</h2>
+
+        <h3>1️⃣ Image Upload</h3>
+        <p>User uploads microscopic blood smear image.</p>
+
+        <h3>2️⃣ Preprocessing</h3>
+        <p>Image resized and normalized using MobileNetV2 preprocessing.</p>
+
+        <h3>3️⃣ Deep Learning Model</h3>
+        <p>
+          Convolutional Neural Network extracts patterns from infected and
+          uninfected cells.
+        </p>
+
+        <h3>4️⃣ Prediction Output</h3>
+        <p>
+          Model predicts probability of malaria infection and displays medical
+          recommendation.
+        </p>
+
+        <div class="info-box">
+          Transfer Learning allows faster training and high accuracy using
+          pretrained ImageNet weights.
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function hideAll() {
+        document
+          .querySelectorAll(".page")
+          .forEach((p) => p.classList.remove("active"));
+      }
+
+      function showHome() {
+        hideAll();
+        document.getElementById("homePage").classList.add("active");
+      }
+
+      function showUpload() {
+        hideAll();
+        document.getElementById("uploadPage").classList.add("active");
+      }
+
+      function showPerformance() {
+        hideAll();
+        document.getElementById("performancePage").classList.add("active");
+      }
+
+      function showTechnology() {
+        hideAll();
+        document.getElementById("technologyPage").classList.add("active");
+      }
+
+      function logout() {
+        hideAll();
+        document.getElementById("loginPage").classList.add("active");
+      }
+    </script>
 
     <script src="{{ url_for('static', filename='script.js') }}"></script>
   </body>

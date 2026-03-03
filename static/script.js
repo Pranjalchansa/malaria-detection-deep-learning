@@ -1,18 +1,23 @@
 // ================= LOAD USERS =================
 let users = JSON.parse(localStorage.getItem("users")) || {};
 
-// ================= PAGE SWITCH =================
-function switchPage(id) {
-  document.querySelectorAll(".page").forEach((p) => {
-    p.classList.remove("active");
+// ================= PAGE SWITCH SYSTEM =================
+function hideAllPages() {
+  document.querySelectorAll(".page").forEach((page) => {
+    page.classList.remove("active");
   });
+}
 
-  const page = document.getElementById(id);
+function switchPage(pageId) {
+  hideAllPages();
+  const page = document.getElementById(pageId);
   if (page) {
     page.classList.add("active");
+    window.scrollTo(0, 0);
   }
 }
 
+// Page Navigation Functions
 function showSignup() {
   switchPage("signupPage");
 }
@@ -25,26 +30,29 @@ function showHome() {
 function showUpload() {
   switchPage("uploadPage");
 }
+function showPerformance() {
+  switchPage("performancePage");
+}
+function showTechnology() {
+  switchPage("technologyPage");
+}
+
 function logout() {
+  alert("Logged out successfully 👋");
   switchPage("loginPage");
 }
 
 // ================= DOM READY =================
 document.addEventListener("DOMContentLoaded", function () {
-  // 🔹 Signup Navigation
+  // 🔹 Navigation Buttons
   const goSignup = document.getElementById("goSignup");
   if (goSignup) {
-    goSignup.addEventListener("click", function () {
-      switchPage("signupPage");
-    });
+    goSignup.addEventListener("click", showSignup);
   }
 
-  // 🔹 Login Navigation
   const goLogin = document.getElementById("goLogin");
   if (goLogin) {
-    goLogin.addEventListener("click", function () {
-      switchPage("loginPage");
-    });
+    goLogin.addEventListener("click", showLogin);
   }
 
   // ================= SIGNUP =================
@@ -55,12 +63,12 @@ document.addEventListener("DOMContentLoaded", function () {
       const pass = document.getElementById("signupPass").value.trim();
 
       if (!user || !pass) {
-        alert("Please fill all fields");
+        alert("Please fill all fields ⚠");
         return;
       }
 
       if (users[user]) {
-        alert("User already exists");
+        alert("User already exists ❌");
         return;
       }
 
@@ -72,7 +80,7 @@ document.addEventListener("DOMContentLoaded", function () {
       document.getElementById("signupUser").value = "";
       document.getElementById("signupPass").value = "";
 
-      switchPage("loginPage");
+      showLogin();
     });
   }
 
@@ -83,8 +91,14 @@ document.addEventListener("DOMContentLoaded", function () {
       const user = document.getElementById("loginUser").value.trim();
       const pass = document.getElementById("loginPass").value.trim();
 
+      if (!user || !pass) {
+        alert("Please enter username and password");
+        return;
+      }
+
       if (users[user] === pass) {
-        switchPage("homePage");
+        alert("Login Successful ✅");
+        showHome();
       } else {
         alert("Invalid Credentials ❌");
       }
@@ -92,39 +106,40 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // ================= IMAGE PREVIEW =================
-  const imageInput = document.getElementById("imageInput");
+  const imageInput = document.querySelector("input[type='file']");
   if (imageInput) {
     imageInput.addEventListener("change", function (event) {
       const file = event.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function (e) {
-          const img = document.getElementById("preview");
-          img.src = e.target.result;
-          img.style.display = "block";
-        };
-        reader.readAsDataURL(file);
+      if (!file) return;
+
+      let previewContainer = document.getElementById("previewContainer");
+      let previewImage = document.getElementById("previewImage");
+
+      if (!previewContainer) {
+        previewContainer = document.createElement("div");
+        previewContainer.id = "previewContainer";
+        previewContainer.style.marginTop = "20px";
+
+        previewImage = document.createElement("img");
+        previewImage.id = "previewImage";
+        previewImage.style.maxWidth = "300px";
+        previewImage.style.borderRadius = "15px";
+
+        previewContainer.appendChild(previewImage);
+        imageInput.parentElement.appendChild(previewContainer);
       }
+
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        previewImage.src = e.target.result;
+      };
+
+      reader.readAsDataURL(file);
     });
   }
+
+  // ================= AUTO OPEN UPLOAD PAGE AFTER PREDICTION =================
+  if (document.querySelector(".result-box")) {
+    showUpload();
+  }
 });
-
-// ================= DUMMY PREDICTION =================
-function predict() {
-  const result = document.getElementById("result");
-
-  if (!document.getElementById("preview").src) {
-    alert("Please upload an image first");
-    return;
-  }
-
-  const random = Math.random();
-
-  if (random > 0.5) {
-    result.innerText = "Result: Infected 🦟";
-    result.style.color = "red";
-  } else {
-    result.innerText = "Result: Uninfected ✅";
-    result.style.color = "lightgreen";
-  }
-}
