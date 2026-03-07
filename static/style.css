@@ -1,4 +1,5 @@
 /* ================= GLOBAL ================= */
+
 * {
   margin: 0;
   padding: 0;
@@ -14,20 +15,25 @@ body {
 }
 
 /* ================= PAGE SYSTEM ================= */
+
 .page {
   display: none;
   min-height: 100vh;
   justify-content: center;
   align-items: center;
   padding: 20px;
+  opacity: 0;
+  transition: opacity 0.4s ease;
 }
 
-.active {
+.page.active {
   display: flex;
   flex-direction: column;
+  opacity: 1;
 }
 
-/* ================= CARD (LOGIN & SIGNUP) ================= */
+/* ================= CARD ================= */
+
 .card {
   background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(15px);
@@ -57,6 +63,7 @@ body {
 }
 
 /* ================= INPUT ================= */
+
 input {
   width: 100%;
   padding: 12px;
@@ -73,7 +80,27 @@ input:focus {
   transform: scale(1.02);
 }
 
+/* ================= FILE INPUT ================= */
+
+input[type="file"] {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px dashed #1abc9c;
+  padding: 15px;
+  cursor: pointer;
+  color: white;
+}
+
+input[type="file"]::-webkit-file-upload-button {
+  background: linear-gradient(45deg, #1abc9c, #16a085);
+  border: none;
+  padding: 8px 15px;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+}
+
 /* ================= BUTTON ================= */
+
 button {
   padding: 12px 20px;
   border: none;
@@ -92,6 +119,7 @@ button:hover {
 }
 
 /* ================= LINKS ================= */
+
 .link {
   color: #1abc9c;
   cursor: pointer;
@@ -108,6 +136,7 @@ button:hover {
 }
 
 /* ================= NAVBAR ================= */
+
 nav {
   position: fixed;
   top: 0;
@@ -138,6 +167,7 @@ nav button:hover {
 }
 
 /* ================= CONTENT ================= */
+
 .content {
   margin-top: 120px;
   padding: 40px;
@@ -174,6 +204,7 @@ nav button:hover {
 }
 
 /* ================= INFO BOX ================= */
+
 .info-box {
   margin-top: 20px;
   padding: 20px;
@@ -184,6 +215,7 @@ nav button:hover {
 }
 
 /* ================= UPLOAD SECTION ================= */
+
 .upload-section {
   text-align: center;
   background: rgba(255, 255, 255, 0.05);
@@ -194,6 +226,7 @@ nav button:hover {
 }
 
 /* ================= RESULT BOX ================= */
+
 .result-box {
   margin-top: 25px;
   padding: 25px;
@@ -206,21 +239,34 @@ nav button:hover {
 
 .result-box h2 {
   margin-bottom: 10px;
+  font-size: 26px;
+  font-weight: 600;
 }
 
 .result-box h3 {
   margin-bottom: 10px;
 }
 
+.result-box strong {
+  color: #1abc9c;
+}
+
 /* ================= IMAGE ================= */
+
 img {
   margin-top: 20px;
   max-width: 320px;
   border-radius: 15px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  transition: 0.4s;
+}
+
+img:hover {
+  transform: scale(1.05);
 }
 
 /* ================= FOOTER ================= */
+
 footer {
   margin-top: 50px;
   padding: 15px;
@@ -230,6 +276,7 @@ footer {
 }
 
 /* ================= MOSQUITO BACKGROUND ================= */
+
 .mosquito-bg {
   position: fixed;
   width: 100%;
@@ -250,12 +297,29 @@ footer {
   }
 }
 
+/* ================= SCROLLBAR ================= */
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0f2027;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1abc9c;
+  border-radius: 10px;
+}
+
 /* ================= ANIMATION ================= */
+
 @keyframes fadeIn {
   from {
     opacity: 0;
     transform: translateY(15px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -263,6 +327,7 @@ footer {
 }
 
 /* ================= RESPONSIVE ================= */
+
 @media (max-width: 768px) {
   .card {
     width: 95%;
